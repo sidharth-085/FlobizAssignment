@@ -1,4 +1,4 @@
-package com.example.flobizassignment.ui.theme
+package com.example.flobizassignment.presentation.theme
 
 import androidx.compose.ui.graphics.Color
 
