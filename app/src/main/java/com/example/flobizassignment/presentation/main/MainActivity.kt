@@ -2,6 +2,8 @@ package com.example.flobizassignment.presentation.main
 
 import android.os.Build
 import android.os.Bundle
+import android.util.Log
+import android.widget.Toast
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.compose.setContent
@@ -27,7 +29,6 @@ import kotlinx.coroutines.launch
 @AndroidEntryPoint
 class MainActivity : ComponentActivity() {
 
-    private val mainViewModel by viewModels<MainViewModel>()
     private val loginViewModel by viewModels<LoginViewModel>()
 
     private val googleAuthUiClient: GoogleAuthUiClient by lazy {
@@ -50,15 +51,17 @@ class MainActivity : ComponentActivity() {
                                 val signInResult = googleAuthUiClient.signInWithIntent(
                                     intent = result.data ?: return@launch
                                 )
+                                Log.d("Hello Tagg", "result_ok $signInResult")
                                 loginViewModel.updateSignInState(signInResult)
                             }
                         }
                     }
                 )
 
-                Box(modifier = Modifier.background(background).fillMaxSize()) {
+                Box(
+                    modifier = Modifier.background(background).fillMaxSize()
+                ) {
                     NavGraph(
-                        startDestination = mainViewModel.startDestination.value,
                         onSignInClick = {
                             lifecycleScope.launch {
                                 val signInIntentSender = googleAuthUiClient.signIn()

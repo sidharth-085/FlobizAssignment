@@ -1,5 +1,6 @@
 package com.example.flobizassignment.presentation.screens.login
 
+import android.util.Log
 import androidx.lifecycle.ViewModel
 import com.example.flobizassignment.domain.models.SignInResult
 import com.example.flobizassignment.domain.models.SignInState
@@ -13,6 +14,7 @@ class LoginViewModel: ViewModel() {
     val signInState: StateFlow<SignInState> = _signInState.asStateFlow()
 
     fun updateSignInState(result: SignInResult) {
+        Log.d("Hello Tagg", "updateSignInState $result")
         _signInState.update {
             it.copy(
                 isSignInSuccessful = result.isSuccessful != null,

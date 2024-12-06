@@ -4,5 +4,6 @@ import androidx.annotation.DrawableRes
 
 data class BottomNavItem(
     @DrawableRes val icon: Int,
-    val name: String
+    val name: String,
+    val route: String
 )
