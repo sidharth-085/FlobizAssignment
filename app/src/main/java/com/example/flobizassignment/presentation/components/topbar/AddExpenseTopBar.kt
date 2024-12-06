@@ -21,7 +21,7 @@ import androidx.compose.ui.unit.sp
 import com.example.flobizassignment.R
 
 @Composable
-fun AddEditExpenseTopBar() {
+fun AddExpenseTopBar() {
     Column(
         modifier = Modifier
             .fillMaxWidth()

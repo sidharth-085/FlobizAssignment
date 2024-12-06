@@ -1,4 +1,4 @@
-package com.example.flobizassignment.presentation.screens.add_edit_expense
+package com.example.flobizassignment.presentation.screens.expense
 
 import android.os.Build
 import androidx.annotation.RequiresApi
@@ -16,7 +16,6 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
-import androidx.compose.foundation.layout.wrapContentWidth
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.BasicTextField
 import androidx.compose.material3.Button
@@ -44,7 +43,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.flobizassignment.R
-import com.example.flobizassignment.presentation.components.topbar.AddEditExpenseTopBar
+import com.example.flobizassignment.presentation.components.topbar.AddExpenseTopBar
 import com.example.flobizassignment.presentation.theme.FlobizAssignmentTheme
 import com.example.flobizassignment.presentation.theme.background
 import com.example.flobizassignment.presentation.theme.colorControlNormal
@@ -57,7 +56,7 @@ import java.time.LocalDate
 @OptIn(ExperimentalMaterial3Api::class)
 @RequiresApi(Build.VERSION_CODES.O)
 @Composable
-fun AddExpense() {
+fun AddExpenseScreen() {
 
     val datePickerState = rememberDatePickerState()
     val selectedLocalDate = datePickerState.selectedDateMillis?.let {
@@ -74,7 +73,7 @@ fun AddExpense() {
 
     Scaffold(
         topBar = {
-            AddEditExpenseTopBar()
+            AddExpenseTopBar()
         },
         content = { padding ->
             val radioOptions = listOf("Expense", "Income")
@@ -245,7 +244,7 @@ fun DatePickerField(
 
                 Image(
                     modifier = Modifier.padding(end = 20.dp),
-                    painter = painterResource(R.drawable.ic_calendar),
+                    painter = painterResource(R.drawable.ic_calender),
                     contentDescription = "calendar"
                 )
             }
@@ -348,6 +347,6 @@ fun TotalAmountField() {
 @Composable
 fun RecordExpenseScreenPreview() {
     FlobizAssignmentTheme {
-        AddExpense()
+        AddExpenseScreen()
     }
 }

@@ -16,11 +16,11 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import com.example.flobizassignment.domain.models.BottomNavModel
+import com.example.flobizassignment.domain.models.BottomNavItem
 
 @Composable
 fun BottomNavigation(
-    items: List<BottomNavModel>,
+    items: List<BottomNavItem>,
     selectedItem: Int,
     onItemClick: (Int) -> Unit
 ) {

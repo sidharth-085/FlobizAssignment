@@ -15,15 +15,15 @@ import androidx.navigation.NavController
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
 import com.example.flobizassignment.R
-import com.example.flobizassignment.domain.models.BottomNavModel
+import com.example.flobizassignment.domain.models.BottomNavItem
 import com.example.flobizassignment.presentation.theme.background
 
 @Composable
 fun AppNavigator() {
     val bottomNavigationItems = remember {
         listOf(
-            BottomNavModel(icon = R.drawable.ic_home, name = "Home"),
-            BottomNavModel(icon = R.drawable.ic_settings, name = "Settings"),
+            BottomNavItem(icon = R.drawable.ic_home, name = "Home"),
+            BottomNavItem(icon = R.drawable.ic_settings, name = "Settings"),
         )
     }
 

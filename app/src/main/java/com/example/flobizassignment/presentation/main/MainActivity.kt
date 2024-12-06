@@ -11,7 +11,9 @@ import androidx.compose.ui.Modifier
 import com.example.flobizassignment.presentation.components.navigation.NavGraph
 import com.example.flobizassignment.presentation.theme.FlobizAssignmentTheme
 import com.example.flobizassignment.presentation.theme.background
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class MainActivity : ComponentActivity() {
 
     private val viewModel by viewModels<MainViewModel>()
