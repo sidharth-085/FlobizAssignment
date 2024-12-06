@@ -19,7 +19,7 @@ import com.example.flobizassignment.domain.models.BottomNavModel
 import com.example.flobizassignment.presentation.theme.background
 
 @Composable
-fun Navigator() {
+fun AppNavigator() {
     val bottomNavigationItems = remember {
         listOf(
             BottomNavModel(icon = R.drawable.ic_home, name = "Home"),
@@ -34,7 +34,7 @@ fun Navigator() {
     }
 
     selectedItem = when (backStackState?.destination?.route) {
-        Routes.DashboardScreen.routes -> 0
+        Routes.DashboardScreen.route -> 0
         else -> 1
     }
 
@@ -48,20 +48,20 @@ fun Navigator() {
                     when (index) {
                         0 -> navigateToTab(
                             navController = navController,
-                            route = Routes.DashboardScreen.routes
+                            route = Routes.DashboardScreen.route
                         )
                         1 -> navigateToTab(
                             navController = navController,
-                            route = Routes.SettingsScreen.routes
+                            route = Routes.SettingsScreen.route
                         )
                     }
                 }
             )
         }
-    ) { padding ->
+    ) { val bottomPadding = it.calculateBottomPadding()
         NavGraph(
-            startDestination = Routes.DashboardScreen.routes,
-            modifier = Modifier.padding(padding)
+            startDestination = Routes.DashboardScreen.route,
+            modifier = Modifier.padding(bottom = bottomPadding)
         )
     }
 }

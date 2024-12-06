@@ -4,8 +4,8 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
+import androidx.navigation.compose.navigation
 import androidx.navigation.compose.rememberNavController
-import com.example.flobizassignment.presentation.screens.dashboard.DashboardScreen
 
 @Composable
 fun NavGraph(
@@ -19,8 +19,22 @@ fun NavGraph(
         startDestination = startDestination,
         modifier = modifier
     ) {
-        composable(Routes.DashboardScreen.routes) {
-            DashboardScreen()
+        navigation(
+            route = Routes.AppStartNavigation.route,
+            startDestination = Routes.LoginScreen.route
+        ) {
+            composable(route = Routes.LoginScreen.route){
+                // TODO
+            }
+        }
+
+        navigation(
+            route = Routes.AppNavigation.route,
+            startDestination = Routes.AppNavigatorScreen.route
+        ) {
+            composable(route = Routes.AppNavigatorScreen.route){
+                AppNavigator()
+            }
         }
     }
 }
