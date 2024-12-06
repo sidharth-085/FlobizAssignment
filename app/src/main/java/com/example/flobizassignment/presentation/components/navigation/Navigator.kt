@@ -2,6 +2,7 @@ package com.example.flobizassignment.presentation.components.navigation
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
@@ -59,7 +60,8 @@ fun Navigator() {
         }
     ) { padding ->
         NavGraph(
-            startDestination = Routes.DashboardScreen.routes
+            startDestination = Routes.DashboardScreen.routes,
+            modifier = Modifier.padding(padding)
         )
     }
 }
