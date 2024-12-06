@@ -3,6 +3,7 @@ package com.example.flobizassignment.presentation.screens.settings
 import androidx.compose.runtime.Composable
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
@@ -25,7 +26,9 @@ import com.example.flobizassignment.presentation.theme.background
 import com.example.flobizassignment.presentation.theme.textColorPrimary
 
 @Composable
-fun SettingsScreen() {
+fun SettingsScreen(
+    onLogOutClick: () -> Unit
+) {
     Column(
         modifier = Modifier
             .fillMaxSize()
@@ -41,7 +44,10 @@ fun SettingsScreen() {
                 .background(
                     color = Color.White,
                     shape = RoundedCornerShape(5.dp)
-                ),
+                )
+                .clickable {
+                    onLogOutClick()
+                },
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
             Row(
@@ -72,6 +78,8 @@ fun SettingsScreen() {
 @Composable
 fun SettingsScreenPreview() {
     FlobizAssignmentTheme {
-        SettingsScreen()
+        SettingsScreen(
+            {}
+        )
     }
 }

@@ -22,10 +22,10 @@
             <InsightsFilterSettings>
               <option name="connection">
                 <ConnectionSetting>
-                  <option name="appId" value="PLACEHOLDER" />
-                  <option name="mobileSdkAppId" value="" />
-                  <option name="projectId" value="" />
-                  <option name="projectNumber" value="" />
+                  <option name="appId" value="com.example.flobizassignment" />
+                  <option name="mobileSdkAppId" value="1:615486359377:android:5ea0445dbca2a6545b7570" />
+                  <option name="projectId" value="flobiz-assignment-619a8" />
+                  <option name="projectNumber" value="615486359377" />
                 </ConnectionSetting>
               </option>
               <option name="signal" value="SIGNAL_UNSPECIFIED" />

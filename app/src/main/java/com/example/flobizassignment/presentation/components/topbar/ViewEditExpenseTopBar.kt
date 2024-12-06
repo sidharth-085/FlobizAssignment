@@ -26,7 +26,7 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import com.example.flobizassignment.R
 import com.example.flobizassignment.domain.models.Expense
-import com.example.flobizassignment.presentation.screens.expense.viewmodel.ViewExpenseViewModel
+import com.example.flobizassignment.presentation.screens.expense.viewmodel.ViewEditExpenseViewModel
 import com.example.flobizassignment.presentation.utils.Utils
 
 @RequiresApi(Build.VERSION_CODES.O)
@@ -35,7 +35,7 @@ fun ViewEditExpenseTopBar(
     expense: Expense,
     navController: NavController,
     edit: Boolean,
-    viewExpenseViewModel: ViewExpenseViewModel = hiltViewModel(),
+    viewExpenseViewModel: ViewEditExpenseViewModel = hiltViewModel(),
     changeEditMode: (value: Boolean) -> Unit,
 ) {
     Column(

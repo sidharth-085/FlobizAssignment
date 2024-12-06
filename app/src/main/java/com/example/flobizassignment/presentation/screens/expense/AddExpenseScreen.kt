@@ -42,8 +42,11 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.navigation.NavController
 import com.example.flobizassignment.R
 import com.example.flobizassignment.presentation.components.topbar.AddExpenseTopBar
+import com.example.flobizassignment.presentation.screens.expense.viewmodel.ViewEditExpenseViewModel
 import com.example.flobizassignment.presentation.theme.FlobizAssignmentTheme
 import com.example.flobizassignment.presentation.theme.background
 import com.example.flobizassignment.presentation.theme.colorControlNormal
@@ -51,12 +54,17 @@ import com.example.flobizassignment.presentation.theme.colorSecondary
 import com.example.flobizassignment.presentation.theme.textColorPrimary
 import com.example.flobizassignment.presentation.theme.textColorSecondary
 import com.example.flobizassignment.presentation.utils.Utils
+import com.google.firebase.auth.FirebaseAuth
 import java.time.LocalDate
 
 @OptIn(ExperimentalMaterial3Api::class)
 @RequiresApi(Build.VERSION_CODES.O)
 @Composable
-fun AddExpenseScreen() {
+fun AddExpenseScreen(
+    navController: NavController,
+    auth: FirebaseAuth,
+    addExpenseViewModel: ViewEditExpenseViewModel = hiltViewModel(),
+) {
 
     val datePickerState = rememberDatePickerState()
     val selectedLocalDate = datePickerState.selectedDateMillis?.let {
@@ -339,14 +347,5 @@ fun TotalAmountField() {
                 )
             }
         }
-    }
-}
-
-@Preview(showBackground = true)
-@RequiresApi(Build.VERSION_CODES.O)
-@Composable
-fun RecordExpenseScreenPreview() {
-    FlobizAssignmentTheme {
-        AddExpenseScreen()
     }
 }

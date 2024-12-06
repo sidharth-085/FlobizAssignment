@@ -3,10 +3,8 @@ package com.example.flobizassignment.presentation.screens.expense
 import android.os.Build
 import androidx.annotation.RequiresApi
 import androidx.hilt.navigation.compose.hiltViewModel
-import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
-import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -15,7 +13,6 @@ import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.CircularProgressIndicator
@@ -33,20 +30,17 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
-import com.example.flobizassignment.R
 import com.example.flobizassignment.domain.models.Expense
 import com.example.flobizassignment.presentation.components.topbar.ViewEditExpenseTopBar
-import com.example.flobizassignment.presentation.screens.expense.viewmodel.ViewExpenseViewModel
+import com.example.flobizassignment.presentation.screens.expense.viewmodel.ViewEditExpenseViewModel
 import com.example.flobizassignment.presentation.theme.background
 import com.example.flobizassignment.presentation.theme.colorPrimaryVariant
 import com.example.flobizassignment.presentation.theme.colorSecondary
 import com.example.flobizassignment.presentation.theme.textColorSecondary
-import com.example.flobizassignment.presentation.utils.Utils
 import com.google.firebase.auth.FirebaseAuth
 
 @RequiresApi(Build.VERSION_CODES.O)
@@ -54,8 +48,8 @@ import com.google.firebase.auth.FirebaseAuth
 fun ViewEditExpenseScreen(
     expense: Expense,
     navController: NavController,
-    authRepository: FirebaseAuth,
-    viewExpenseViewModel: ViewExpenseViewModel = hiltViewModel(),
+    firebaseAuth: FirebaseAuth,
+    viewExpenseViewModel: ViewEditExpenseViewModel = hiltViewModel(),
 ) {
     var edit by remember { mutableStateOf(false) }
     val type by remember { mutableStateOf(expense.type) }
@@ -63,7 +57,7 @@ fun ViewEditExpenseScreen(
     var description by remember { mutableStateOf(expense.description) }
     var amount by remember { mutableStateOf(expense.amount.toString()) }
     val isLoading by viewExpenseViewModel.isLoading.collectAsState()
-    val userId = authRepository.currentUser?.uid.toString()
+    val userId = firebaseAuth.currentUser?.uid.toString()
 
     Scaffold(
         topBar = {

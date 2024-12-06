@@ -21,21 +21,21 @@ import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
+import com.example.flobizassignment.domain.models.Expense
 
 @Composable
-fun TransactionCard() {
+fun TransactionCard(expense: Expense, onClick: (expense: Expense) -> Unit) {
     Card(
-        onClick = {},
+        onClick = { onClick(expense) },
         modifier = Modifier
-            .padding(start = 20.dp, end = 20.dp, bottom = 15.dp)
+            .padding(bottom = 15.dp)
             .background(
                 color = Color.White,
                 shape = RoundedCornerShape(5.dp)
             )
             .shadow(
                 elevation = 5.dp,
-                shape = RoundedCornerShape(5.dp),
-                ambientColor = Color.Cyan
+                shape = RoundedCornerShape(5.dp)
             ),
     ) {
         Row(
@@ -57,7 +57,7 @@ fun TransactionCard() {
                     horizontalArrangement = Arrangement.SpaceBetween
                 ) {
                     Text(
-                        text = "Expense title",
+                        text = expense.description,
                         maxLines = 1,
                         fontWeight = FontWeight.Bold,
                         color = Color.Black,
@@ -65,7 +65,7 @@ fun TransactionCard() {
                     )
 
                     Text(
-                        text = "1000",
+                        text = expense.amount.toString(),
                         maxLines = 1,
                         fontWeight = FontWeight.Bold,
                         color = Color.Black,
@@ -74,7 +74,7 @@ fun TransactionCard() {
                 }
                 Spacer(modifier = Modifier.height(5.dp))
                 Text(
-                    text = "Expense no",
+                    text = expense.type,
                     maxLines = 1,
                     fontWeight = FontWeight.Bold,
                     color = Color.Gray,
@@ -82,7 +82,7 @@ fun TransactionCard() {
                 )
                 Spacer(modifier = Modifier.height(5.dp))
                 Text(
-                    text = "Date",
+                    text = expense.date,
                     maxLines = 1,
                     fontWeight = FontWeight.Normal,
                     color = Color.Gray,
