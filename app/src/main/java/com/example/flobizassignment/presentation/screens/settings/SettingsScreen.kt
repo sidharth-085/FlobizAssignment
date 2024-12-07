@@ -41,8 +41,8 @@ fun SettingsScreen(
     Box(
         modifier = Modifier
             .fillMaxSize()
-            .padding(16.dp)
-            .background(background),
+            .background(background)
+            .padding(16.dp),
         contentAlignment = Alignment.Center
     ) {
         Column(

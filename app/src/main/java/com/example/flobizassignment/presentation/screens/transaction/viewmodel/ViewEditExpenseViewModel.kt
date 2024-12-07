@@ -1,7 +1,7 @@
-package com.example.flobizassignment.presentation.screens.expense.viewmodel
+package com.example.flobizassignment.presentation.screens.transaction.viewmodel
 
 import androidx.lifecycle.ViewModel
-import com.example.flobizassignment.domain.models.Expense
+import com.example.flobizassignment.domain.models.Transaction
 import com.google.firebase.firestore.FirebaseFirestore
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -9,23 +9,23 @@ import kotlinx.coroutines.flow.StateFlow
 import javax.inject.Inject
 
 @HiltViewModel
-class ViewEditExpenseViewModel @Inject constructor(
+class ViewEditTransactionViewModel @Inject constructor(
     private val firestore: FirebaseFirestore
 ): ViewModel() {
     private val _isLoading = MutableStateFlow(value = false)
     val isLoading: StateFlow<Boolean> = _isLoading
 
-    fun updateExpense(
-        expenseId: String,
-        updatedExpense: Expense,
+    fun updateTransaction(
+        transactionId: String,
+        updatedTransaction: Transaction,
         onSuccessCallback: () -> Unit,
         onFailureCallback: (e: Exception) -> Unit
     ) {
         _isLoading.value = true
 
-        firestore.collection("expenses")
-            .document(expenseId)
-            .set(updatedExpense)
+        firestore.collection("transactions")
+            .document(transactionId)
+            .set(updatedTransaction)
             .addOnSuccessListener {
                 _isLoading.value = false
                 onSuccessCallback()
@@ -36,15 +36,15 @@ class ViewEditExpenseViewModel @Inject constructor(
             }
     }
 
-    fun deleteExpense(
-        expenseId: String,
+    fun deleteTransaction(
+        transactionId: String,
         onSuccessCallback: () -> Unit,
         onFailureCallback: (e: Exception) -> Unit
     ) {
         _isLoading.value = true
 
-        firestore.collection("expenses")
-            .document(expenseId)
+        firestore.collection("transactions")
+            .document(transactionId)
             .delete()
             .addOnSuccessListener {
                 _isLoading.value = false

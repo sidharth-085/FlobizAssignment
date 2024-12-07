@@ -1,7 +1,6 @@
 package com.example.flobizassignment.presentation.components.navigation
 
 import android.os.Build
-import android.util.Log
 import androidx.annotation.RequiresApi
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.fillMaxSize
@@ -14,7 +13,6 @@ import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.saveable.rememberSaveable
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
@@ -28,10 +26,10 @@ import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navArgument
 import com.example.flobizassignment.R
 import com.example.flobizassignment.domain.models.BottomNavItem
-import com.example.flobizassignment.domain.models.Expense
+import com.example.flobizassignment.domain.models.Transaction
 import com.example.flobizassignment.presentation.screens.dashboard.DashboardScreen
-import com.example.flobizassignment.presentation.screens.expense.AddExpenseScreen
-import com.example.flobizassignment.presentation.screens.expense.ViewEditExpenseScreen
+import com.example.flobizassignment.presentation.screens.transaction.AddTransactionScreen
+import com.example.flobizassignment.presentation.screens.transaction.ViewEditTransactionScreen
 import com.example.flobizassignment.presentation.screens.login.LoginScreen
 import com.example.flobizassignment.presentation.screens.login.LoginViewModel
 import com.example.flobizassignment.presentation.screens.settings.SettingsScreen
@@ -63,8 +61,6 @@ fun NavGraph(
             navigationViewModel.getStartDestination()
         )
     }
-
-    val start = startDestination
 
     val selectedItem by rememberSaveable {
         mutableIntStateOf(value = when (backStackState?.destination?.route) {
@@ -104,10 +100,10 @@ fun NavGraph(
     ) { val bottomPadding = it.calculateBottomPadding()
         NavHost(
             navController = navController,
-            startDestination = start,
+            startDestination = startDestination,
             modifier = Modifier.padding(bottom = bottomPadding)
         ) {
-            composable(route = Routes.LoginScreen.route){
+            composable(route = Routes.LoginScreen.route) {
                 val signInState by loginViewModel.signInState.collectAsStateWithLifecycle()
 
                 LaunchedEffect(key1 = Unit) {
@@ -140,15 +136,15 @@ fun NavGraph(
                 DashboardScreen(
                     onAddNewButtonClick = {
                         navController.navigate(
-                            route = Routes.AddExpenseScreen.route
+                            route = Routes.AddTransactionScreen.route
                         )
                     },
-                    navigateToViewEditExpenseScreen = { expense ->
-                        navigateToViewEditExpenseScreen(
+                    navigateToViewEditTransactionScreen = { transaction ->
+                        navigateToViewEditTransactionScreen(
                             navController = navController,
-                            expense = expense
+                            transaction = transaction
                         )
-                    },
+                    }
                 )
             }
 
@@ -158,31 +154,30 @@ fun NavGraph(
                 SettingsScreen(
                     onLogOutClick = {
                         onLogOutClick()
-                        navController.popBackStack()
-                        navController.navigate(
-                            route = Routes.LoginScreen.route
-                        )
+                        navController.navigate(route = Routes.LoginScreen.route) {
+                            popUpTo(Routes.DashboardScreen.route) { inclusive = true }
+                        }
                     }
                 )
             }
 
             composable(
-                route = Routes.AddExpenseScreen.route
+                route = Routes.AddTransactionScreen.route
             ) {
-                AddExpenseScreen(
+                AddTransactionScreen(
                     navController = navController,
                     auth = Firebase.auth
                 )
             }
 
             composable(
-                route = Routes.ViewEditExpenseScreen.route,
-                arguments = listOf(navArgument("expenses") { type = NavType.StringType })
+                route = Routes.ViewEditTransactionScreen.route,
+                arguments = listOf(navArgument("transactions") { type = NavType.StringType })
             ) { backStackEntry ->
-                val expense = navController.previousBackStackEntry?.savedStateHandle?.get<Expense?>("expense")
-                expense?.let {
-                    ViewEditExpenseScreen(
-                        expense = expense,
+                val transaction = navController.previousBackStackEntry?.savedStateHandle?.get<Transaction?>("transaction")
+                transaction?.let {
+                    ViewEditTransactionScreen(
+                        transaction = transaction,
                         navController = navController,
                         firebaseAuth = Firebase.auth
                     )
@@ -204,9 +199,9 @@ private fun navigateToTab(navController: NavController, route: String) {
     }
 }
 
-private fun navigateToViewEditExpenseScreen(navController: NavController, expense: Expense) {
-    navController.currentBackStackEntry?.savedStateHandle?.set("expense", expense)
+private fun navigateToViewEditTransactionScreen(navController: NavController, transaction: Transaction) {
+    navController.currentBackStackEntry?.savedStateHandle?.set("transaction", transaction)
     navController.navigate(
-        Routes.ViewEditExpenseScreen.route
+        Routes.ViewEditTransactionScreen.route
     )
 }

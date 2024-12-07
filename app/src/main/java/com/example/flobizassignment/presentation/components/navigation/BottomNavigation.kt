@@ -92,7 +92,7 @@ fun BottomNavigation(
                                     textAlign = TextAlign.Center
                                 )
                             }
-                        },
+                        }
                     )
                 }
             }

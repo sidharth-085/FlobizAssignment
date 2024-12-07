@@ -25,17 +25,17 @@ import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import com.example.flobizassignment.R
-import com.example.flobizassignment.domain.models.Expense
-import com.example.flobizassignment.presentation.screens.expense.viewmodel.ViewEditExpenseViewModel
+import com.example.flobizassignment.domain.models.Transaction
+import com.example.flobizassignment.presentation.screens.transaction.viewmodel.ViewEditTransactionViewModel
 import com.example.flobizassignment.presentation.utils.Utils
 
 @RequiresApi(Build.VERSION_CODES.O)
 @Composable
-fun ViewEditExpenseTopBar(
-    expense: Expense,
+fun ViewEditTransactionTopBar(
+    transaction: Transaction,
     navController: NavController,
     edit: Boolean,
-    viewExpenseViewModel: ViewEditExpenseViewModel = hiltViewModel(),
+    viewTransactionViewModel: ViewEditTransactionViewModel = hiltViewModel(),
     changeEditMode: (value: Boolean) -> Unit,
 ) {
     Column(
@@ -61,7 +61,7 @@ fun ViewEditExpenseTopBar(
             Spacer(modifier = Modifier.width(15.dp))
 
             Text(
-                text = "Record Expense",
+                text = "Record Transaction",
                 fontSize = 18.sp,
                 fontWeight = FontWeight.Bold
             )
@@ -76,14 +76,14 @@ fun ViewEditExpenseTopBar(
                         modifier = Modifier
                             .size(30.dp)
                             .clickable {
-                                viewExpenseViewModel.updateExpense(
-                                    expenseId = expense.id,
-                                    updatedExpense = Expense(
-                                        id = expense.id,
-                                        type = expense.type,
-                                        description = expense.description,
-                                        amount = expense.amount.toDouble(),
-                                        date = expense.date
+                                viewTransactionViewModel.updateTransaction(
+                                    transactionId = transaction.id,
+                                    updatedTransaction = Transaction(
+                                        id = transaction.id,
+                                        type = transaction.type,
+                                        description = transaction.description,
+                                        amount = transaction.amount.toDouble(),
+                                        date = transaction.date
                                     ),
                                     onSuccessCallback = {
                                         changeEditMode(false)
@@ -112,8 +112,8 @@ fun ViewEditExpenseTopBar(
                     modifier = Modifier
                         .size(30.dp)
                         .clickable {
-                            viewExpenseViewModel.deleteExpense(
-                                expenseId = expense.id,
+                            viewTransactionViewModel.deleteTransaction(
+                                transactionId = transaction.id,
                                 onSuccessCallback = {
                                     navController.popBackStack()
                                 },

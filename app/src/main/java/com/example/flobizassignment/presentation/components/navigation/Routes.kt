@@ -8,9 +8,9 @@ sealed class Routes(val route: String) {
 
     data object SettingsScreen : Routes("settings_screen")
 
-    data object ViewEditExpenseScreen : Routes("expense_detail_screen/{expenses}") {
-        fun createRoute(expenses: String): String = "expense_detail_screen/$expenses"
+    data object ViewEditTransactionScreen : Routes("transaction_detail_screen/{transactions}") {
+        fun createRoute(transactions: String): String = "transaction_detail_screen/$transactions"
     }
 
-    data object AddExpenseScreen: Routes("add_expense_screen")
+    data object AddTransactionScreen: Routes("add_transaction_screen")
 }

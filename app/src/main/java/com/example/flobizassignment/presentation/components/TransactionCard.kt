@@ -20,23 +20,25 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import com.example.flobizassignment.domain.models.Expense
+import com.example.flobizassignment.domain.models.Transaction
+import com.example.flobizassignment.presentation.theme.FlobizAssignmentTheme
 
 @Composable
-fun TransactionCard(expense: Expense, onClick: (expense: Expense) -> Unit) {
+fun TransactionCard(transaction: Transaction, onClick: (transaction: Transaction) -> Unit) {
     Card(
-        onClick = { onClick(expense) },
+        onClick = { onClick(transaction) },
+        shape = RoundedCornerShape(5.dp),
         modifier = Modifier
-            .padding(bottom = 15.dp)
             .background(
                 color = Color.White,
                 shape = RoundedCornerShape(5.dp)
             )
             .shadow(
-                elevation = 5.dp,
+                elevation = 3.dp,
                 shape = RoundedCornerShape(5.dp)
-            ),
+            )
     ) {
         Row(
             modifier = Modifier
@@ -46,7 +48,7 @@ fun TransactionCard(expense: Expense, onClick: (expense: Expense) -> Unit) {
         ) {
             Column(
                 modifier = Modifier
-                    .padding(10.dp)
+                    .padding(13.dp)
                     .weight(3f)
                     .fillMaxHeight(),
                 verticalArrangement = Arrangement.Center
@@ -57,7 +59,7 @@ fun TransactionCard(expense: Expense, onClick: (expense: Expense) -> Unit) {
                     horizontalArrangement = Arrangement.SpaceBetween
                 ) {
                     Text(
-                        text = expense.description,
+                        text = transaction.description,
                         maxLines = 1,
                         fontWeight = FontWeight.Bold,
                         color = Color.Black,
@@ -65,7 +67,7 @@ fun TransactionCard(expense: Expense, onClick: (expense: Expense) -> Unit) {
                     )
 
                     Text(
-                        text = expense.amount.toString(),
+                        text = "₹ ${transaction.amount}",
                         maxLines = 1,
                         fontWeight = FontWeight.Bold,
                         color = Color.Black,
@@ -74,7 +76,7 @@ fun TransactionCard(expense: Expense, onClick: (expense: Expense) -> Unit) {
                 }
                 Spacer(modifier = Modifier.height(5.dp))
                 Text(
-                    text = expense.type,
+                    text = transaction.type,
                     maxLines = 1,
                     fontWeight = FontWeight.Bold,
                     color = Color.Gray,
@@ -82,13 +84,12 @@ fun TransactionCard(expense: Expense, onClick: (expense: Expense) -> Unit) {
                 )
                 Spacer(modifier = Modifier.height(5.dp))
                 Text(
-                    text = expense.date,
+                    text = transaction.date,
                     maxLines = 1,
                     fontWeight = FontWeight.Normal,
                     color = Color.Gray,
                     style = MaterialTheme.typography.bodySmall
                 )
-                Spacer(modifier = Modifier.height(5.dp))
             }
         }
     }

@@ -83,8 +83,6 @@ dependencies {
     kapt(libs.hilt.android.compiler)
 
     // firebase dependencies
-    implementation(libs.firebase.auth)
-    implementation(libs.firebase.firestore)
 
     implementation (libs.androidx.lifecycle.viewmodel.compose)
     implementation(libs.androidx.lifecycle.viewmodel.ktx)
@@ -95,6 +93,8 @@ dependencies {
     implementation (libs.gson)
 
     // firebase dependencies
+    implementation(libs.firebase.auth)
+    implementation(libs.firebase.firestore)
     implementation(libs.firebase.analytics)
     implementation(platform(libs.firebase.bom))
     implementation(libs.play.services.auth)
@@ -105,4 +105,8 @@ dependencies {
 
     // cloud firestore dependency
     implementation(libs.google.firebase.firestore)
+
+    // material icons
+    implementation(libs.androidx.material.icons.extended)
+    implementation (libs.androidx.material)
 }

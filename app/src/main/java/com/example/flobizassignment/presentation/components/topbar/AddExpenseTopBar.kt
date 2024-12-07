@@ -21,7 +21,7 @@ import androidx.compose.ui.unit.sp
 import com.example.flobizassignment.R
 
 @Composable
-fun AddExpenseTopBar() {
+fun AddTransactionTopBar() {
     Column(
         modifier = Modifier
             .fillMaxWidth()
@@ -40,7 +40,7 @@ fun AddExpenseTopBar() {
             Spacer(modifier = Modifier.width(20.dp))
 
             Text(
-                text = "Record Expense",
+                text = "Record Transaction",
                 fontSize = 16.sp,
                 fontWeight = FontWeight.Bold,
                 modifier = Modifier.padding(top = 2.dp)

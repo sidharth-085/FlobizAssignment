@@ -1,8 +1,8 @@
 package com.example.flobizassignment.presentation.di
 
-import com.example.flobizassignment.data.repository.FireStoreRepositoryImpl
+import com.example.flobizassignment.data.repository.TransactionRepositoryImpl
 import com.example.flobizassignment.data.repository.FirebaseAuthRepositoryImpl
-import com.example.flobizassignment.domain.repository.FireStoreRepository
+import com.example.flobizassignment.domain.repository.TransactionRepository
 import com.example.flobizassignment.domain.repository.FirebaseAuthRepository
 import dagger.Binds
 import dagger.Module
@@ -16,9 +16,9 @@ abstract class RepositoryModule {
 
     @Binds
     @Singleton
-    abstract fun bindFireStoreRepository(
-        fireStoreRepositoryImpl: FireStoreRepositoryImpl
-    ): FireStoreRepository
+    abstract fun bindTransactionRepository(
+        transactionRepositoryImpl: TransactionRepositoryImpl
+    ): TransactionRepository
 
     @Binds
     @Singleton

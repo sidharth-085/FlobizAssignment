@@ -3,7 +3,7 @@ package com.example.flobizassignment.presentation.utils
 import android.os.Build
 import android.util.Log
 import androidx.annotation.RequiresApi
-import com.example.flobizassignment.domain.models.Expense
+import com.example.flobizassignment.domain.models.Transaction
 import java.time.Instant
 import java.time.LocalDate
 import java.time.ZoneId
@@ -24,13 +24,13 @@ object Utils {
         return formatter.format(localDate)
     }
 
-    fun map(expense: Expense): Map<String, Any> {
-        return mapOf(
-            "id" to expense.id,
-            "date" to expense.date,
-            "description" to expense.description,
-            "amount" to expense.amount,
-            "type" to expense.type,
+    fun map(transaction: Transaction): HashMap<String, Any> {
+        return hashMapOf(
+            "id" to transaction.id,
+            "date" to transaction.date,
+            "description" to transaction.description,
+            "amount" to transaction.amount,
+            "type" to transaction.type,
         )
     }
 

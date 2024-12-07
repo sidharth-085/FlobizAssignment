@@ -30,8 +30,9 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
-import com.example.flobizassignment.domain.models.Expense
+import com.example.flobizassignment.domain.models.Transaction
 import com.example.flobizassignment.presentation.components.AddNewButton
+import com.example.flobizassignment.presentation.components.SwipeToDeleteContainer
 import com.example.flobizassignment.presentation.components.TransactionCard
 import com.example.flobizassignment.presentation.components.topbar.SearchTopBar
 import com.example.flobizassignment.presentation.theme.FlobizAssignmentTheme
@@ -40,20 +41,20 @@ import com.example.flobizassignment.presentation.theme.textColorSecondary
 
 @Composable
 fun DashboardScreen(
-    navigateToViewEditExpenseScreen: (expense: Expense) -> Unit = {},
+    navigateToViewEditTransactionScreen: (transaction: Transaction) -> Unit = {},
     onAddNewButtonClick: () -> Unit,
     dashboardViewModel: DashboardViewModel = hiltViewModel(),
 ) {
     var isSearching by remember { mutableStateOf(false) }
     var searchQuery by remember { mutableStateOf("") }
-    val expenses by dashboardViewModel.expenses.collectAsState()
+    val transactions by dashboardViewModel.transactions.collectAsState()
     val isLoading by dashboardViewModel.isLoading.collectAsState()
-    val filteredExpenses = expenses.filter {
+    val filteredTransactions = transactions.filter {
         it.description.contains(searchQuery, ignoreCase = true)
     }
 
     LaunchedEffect(Unit) {
-        dashboardViewModel.fetchExpenses()
+        dashboardViewModel.getTransactions()
     }
 
     BackHandler(enabled = isSearching) {
@@ -76,9 +77,9 @@ fun DashboardScreen(
             ) },
             content = { padding ->
                 DashboardContent(
-                    navigateToViewEditExpenseScreen = navigateToViewEditExpenseScreen,
+                    navigateToViewEditTransactionScreen = navigateToViewEditTransactionScreen,
                     isLoading = isLoading,
-                    updatedExpenses = filteredExpenses
+                    updatedTransactions = filteredTransactions
                 )
             },
             floatingActionButtonPosition = FabPosition.Center
@@ -88,23 +89,23 @@ fun DashboardScreen(
 
 @Composable
 fun DashboardContent(
-    navigateToViewEditExpenseScreen: (expense: Expense) -> Unit,
+    navigateToViewEditTransactionScreen: (transaction: Transaction) -> Unit,
     isLoading: Boolean,
-    updatedExpenses: List<Expense>
+    updatedTransactions: List<Transaction>
 ) {
     Column(
         modifier = Modifier
-            .padding(top = 90.dp)
+            .padding(top = 66.dp)
             .fillMaxSize()
             .background(background)
     ) {
         Column(
-            modifier = Modifier.padding(20.dp)
+            modifier = Modifier.padding(15.dp)
         ) {
             Text(
                 text = "Recent Transactions",
                 color = textColorSecondary,
-                fontSize = 14.sp,
+                fontSize = 12.sp,
                 fontWeight = FontWeight.Bold
             )
 
@@ -114,7 +115,7 @@ fun DashboardContent(
                 if (isLoading) {
                     CircularProgressIndicator(Modifier.align(Alignment.Center))
                 }
-                else if (updatedExpenses.isEmpty()) {
+                else if (updatedTransactions.isEmpty()) {
                     Text(
                         text = "No Transactions",
                         color = Color.Gray,
@@ -123,11 +124,20 @@ fun DashboardContent(
                     )
                 } else {
                     LazyColumn(
-                        verticalArrangement = Arrangement.spacedBy(8.dp)
+                        modifier = Modifier.fillMaxSize(),
+                        verticalArrangement = Arrangement.spacedBy(12.dp)
                     ) {
-                        items(updatedExpenses) { expense ->
-                            TransactionCard(expense = expense) { e ->
-                                navigateToViewEditExpenseScreen(e)
+                        items(
+                            items = updatedTransactions,
+                            key = { it.id }
+                        ) { transaction ->
+                            SwipeToDeleteContainer(
+                                item = transaction,
+                                onDelete = { }
+                            ) {
+                                TransactionCard(transaction = transaction) { e ->
+                                    navigateToViewEditTransactionScreen(e)
+                                }
                             }
                         }
                     }

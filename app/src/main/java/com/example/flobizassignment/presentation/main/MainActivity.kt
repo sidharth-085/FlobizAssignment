@@ -16,6 +16,7 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.ui.Modifier
 import androidx.lifecycle.lifecycleScope
+import androidx.navigation.compose.rememberNavController
 import com.example.flobizassignment.presentation.components.navigation.NavGraph
 import com.example.flobizassignment.presentation.screens.login.GoogleAuthUiClient
 import com.example.flobizassignment.presentation.screens.login.LoginViewModel
@@ -51,7 +52,6 @@ class MainActivity : ComponentActivity() {
                                 val signInResult = googleAuthUiClient.signInWithIntent(
                                     intent = result.data ?: return@launch
                                 )
-                                Log.d("Hello Tagg", "result_ok $signInResult")
                                 loginViewModel.updateSignInState(signInResult)
                             }
                         }

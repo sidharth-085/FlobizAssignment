@@ -1,4 +1,4 @@
-package com.example.flobizassignment.presentation.screens.expense
+package com.example.flobizassignment.presentation.screens.transaction
 
 import android.os.Build
 import androidx.annotation.RequiresApi
@@ -34,9 +34,9 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
-import com.example.flobizassignment.domain.models.Expense
-import com.example.flobizassignment.presentation.components.topbar.ViewEditExpenseTopBar
-import com.example.flobizassignment.presentation.screens.expense.viewmodel.ViewEditExpenseViewModel
+import com.example.flobizassignment.domain.models.Transaction
+import com.example.flobizassignment.presentation.components.topbar.ViewEditTransactionTopBar
+import com.example.flobizassignment.presentation.screens.transaction.viewmodel.ViewEditTransactionViewModel
 import com.example.flobizassignment.presentation.theme.background
 import com.example.flobizassignment.presentation.theme.colorPrimaryVariant
 import com.example.flobizassignment.presentation.theme.colorSecondary
@@ -45,24 +45,24 @@ import com.google.firebase.auth.FirebaseAuth
 
 @RequiresApi(Build.VERSION_CODES.O)
 @Composable
-fun ViewEditExpenseScreen(
-    expense: Expense,
+fun ViewEditTransactionScreen(
+    transaction: Transaction,
     navController: NavController,
     firebaseAuth: FirebaseAuth,
-    viewExpenseViewModel: ViewEditExpenseViewModel = hiltViewModel(),
+    viewTransactionViewModel: ViewEditTransactionViewModel = hiltViewModel(),
 ) {
     var edit by remember { mutableStateOf(false) }
-    val type by remember { mutableStateOf(expense.type) }
-    val date by remember { mutableStateOf(expense.date) }
-    var description by remember { mutableStateOf(expense.description) }
-    var amount by remember { mutableStateOf(expense.amount.toString()) }
-    val isLoading by viewExpenseViewModel.isLoading.collectAsState()
+    val type by remember { mutableStateOf(transaction.type) }
+    val date by remember { mutableStateOf(transaction.date) }
+    var description by remember { mutableStateOf(transaction.description) }
+    var amount by remember { mutableStateOf(transaction.amount.toString()) }
+    val isLoading by viewTransactionViewModel.isLoading.collectAsState()
     val userId = firebaseAuth.currentUser?.uid.toString()
 
     Scaffold(
         topBar = {
-            ViewEditExpenseTopBar(
-                expense = Expense(
+            ViewEditTransactionTopBar(
+                transaction = Transaction(
                     id = userId,
                     type = type,
                     description = description,

@@ -39,7 +39,7 @@ fun SearchTopBar(
         Column(
             modifier = Modifier
                 .fillMaxWidth()
-                .padding(20.dp)
+                .padding(start = 15.dp, end = 15.dp, top = 12.dp, bottom = 12.dp)
                 .background(
                     color = colorPrimaryVariant,
                     shape = RoundedCornerShape(10.dp)

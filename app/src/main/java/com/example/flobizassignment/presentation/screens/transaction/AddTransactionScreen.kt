@@ -1,4 +1,4 @@
-package com.example.flobizassignment.presentation.screens.expense
+package com.example.flobizassignment.presentation.screens.transaction
 
 import android.os.Build
 import android.widget.Toast
@@ -12,18 +12,16 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.WindowInsets
-import androidx.compose.foundation.layout.asPaddingValues
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
-import androidx.compose.foundation.layout.navigationBars
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.layout.widthIn
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.BasicTextField
+import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.DatePicker
@@ -45,21 +43,21 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import com.example.flobizassignment.R
-import com.example.flobizassignment.domain.models.Expense
-import com.example.flobizassignment.presentation.components.topbar.AddExpenseTopBar
-import com.example.flobizassignment.presentation.screens.expense.viewmodel.AddExpenseViewModel
+import com.example.flobizassignment.domain.models.Transaction
+import com.example.flobizassignment.presentation.components.topbar.AddTransactionTopBar
+import com.example.flobizassignment.presentation.screens.transaction.viewmodel.AddTransactionViewModel
 import com.example.flobizassignment.presentation.theme.background
 import com.example.flobizassignment.presentation.theme.colorControlNormal
 import com.example.flobizassignment.presentation.theme.colorSecondary
@@ -72,10 +70,10 @@ import java.time.LocalDate
 @OptIn(ExperimentalMaterial3Api::class)
 @RequiresApi(Build.VERSION_CODES.O)
 @Composable
-fun AddExpenseScreen(
+fun AddTransactionScreen(
     navController: NavController,
     auth: FirebaseAuth,
-    addExpenseViewModel: AddExpenseViewModel = hiltViewModel(),
+    addTransactionViewModel: AddTransactionViewModel = hiltViewModel(),
 ) {
     val context = LocalContext.current
 
@@ -92,7 +90,7 @@ fun AddExpenseScreen(
         mutableStateOf(false)
     }
 
-    val uiState by addExpenseViewModel.stateFlow.collectAsState()
+    val uiState by addTransactionViewModel.stateFlow.collectAsState()
 
     var description by remember { mutableStateOf("") }
     var amount by remember { mutableStateOf("") }
@@ -104,9 +102,31 @@ fun AddExpenseScreen(
     var selectedOption by remember { mutableStateOf(options[0]) }
     val onOptionSelected: (String) -> Unit = { selectedOption = it }
 
+    LaunchedEffect(uiState) {
+        when (uiState) {
+            is TransactionState.Completed -> {
+                Toast.makeText(
+                    context,
+                    "Transaction Added",
+                    Toast.LENGTH_SHORT
+                ).show()
+            }
+
+            is TransactionState.Failed -> {
+                Toast.makeText(
+                    context,
+                    "Something went wrong",
+                    Toast.LENGTH_SHORT
+                ).show()
+            }
+
+            else -> Unit
+        }
+    }
+
     Scaffold(
         topBar = {
-            AddExpenseTopBar()
+            AddTransactionTopBar()
         },
         content = { padding ->
             Column(
@@ -145,7 +165,9 @@ fun AddExpenseScreen(
                 TotalAmountField(
                     amount = amount,
                     onAmountChange = { change ->
-                        amount = change
+                        if (change.all { it.isDigit() }) {
+                            amount = change
+                        }
                     }
                 )
             }
@@ -158,14 +180,14 @@ fun AddExpenseScreen(
 
                 Button(
                     onClick = {
-                        val expense = Expense(
+                        val transaction = Transaction(
                             date = formattedDateString,
                             description = description,
                             amount = amount.toDoubleOrNull() ?: 0.0,
                             type = selectedOption,
                             id = auth.currentUser!!.uid
                         )
-                        addExpenseViewModel.saveExpense(expense)
+                        addTransactionViewModel.saveTransaction(transaction)
                         navController.popBackStack()
                     },
                     modifier = Modifier
@@ -181,28 +203,6 @@ fun AddExpenseScreen(
                         color = Color.White,
                         fontWeight = FontWeight.Bold
                     )
-                }
-
-                LaunchedEffect(uiState) {
-                    when (uiState) {
-                        is ExpenseState.Completed -> {
-                            Toast.makeText(
-                                context,
-                                "Expense Added",
-                                Toast.LENGTH_LONG
-                            ).show()
-                        }
-
-                        is ExpenseState.Failed -> {
-                            Toast.makeText(
-                                context,
-                                "Expense Failed",
-                                Toast.LENGTH_LONG
-                            ).show()
-                        }
-
-                        else -> Unit
-                    }
                 }
             }
         }
@@ -318,7 +318,7 @@ fun DatePickerField(
                 color = if (dateToString.isEmpty()) Color.Gray else textColorSecondary,
                 fontSize = 12.sp,
                 fontWeight = FontWeight.Bold,
-                modifier = Modifier.padding(start = 15.dp)
+                modifier = Modifier.padding(start = 15.dp, top = 2.dp)
             )
             Image(
                 painter = painterResource(R.drawable.ic_calender),
@@ -416,7 +416,8 @@ fun TotalAmountField(
                     text = "₹",
                     fontSize = 15.sp,
                     color = textColorSecondary,
-                    fontWeight = FontWeight.Bold
+                    fontWeight = FontWeight.Bold,
+                    modifier = Modifier.padding(top = 2.dp)
                 )
                 Spacer(modifier = Modifier.width(10.dp))
                 BasicTextField(
@@ -428,17 +429,24 @@ fun TotalAmountField(
                         fontWeight = FontWeight.Bold,
                         textAlign = TextAlign.Start,
                     ),
-                    modifier = Modifier.widthIn(min = 50.dp), // Ensures a consistent width for the text field
-                    decorationBox = { innerTextField ->
-                        if (amount.isEmpty()) {
-                            Text(
-                                text = "Amount",
-                                color = Color.Gray,
-                                fontSize = 12.sp,
-                                fontWeight = FontWeight.Bold
-                            )
+                    keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number),
+                    modifier = Modifier
+                        .widthIn(min = 50.dp)
+                        .align(Alignment.CenterVertically),
+                    decorationBox = { textField ->
+                        Box(
+                            contentAlignment = Alignment.CenterStart,
+                        ) {
+                            if (amount.isEmpty()) {
+                                Text(
+                                    text = "Amount",
+                                    color = Color.Gray,
+                                    fontSize = 12.sp,
+                                    fontWeight = FontWeight.Bold
+                                )
+                            }
+                            textField()
                         }
-                        innerTextField()
                     }
                 )
             }
