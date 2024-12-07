@@ -25,25 +25,25 @@ fun AddExpenseTopBar() {
     Column(
         modifier = Modifier
             .fillMaxWidth()
-            .padding(top = 50.dp)
             .background(Color.White)
     ) {
         Row(
-            modifier = Modifier.padding(20.dp),
+            modifier = Modifier.padding(16.dp),
             verticalAlignment = Alignment.CenterVertically
         ) {
             Image(
-                modifier = Modifier.size(30.dp),
+                modifier = Modifier.size(24.dp).padding(top = 2.dp),
                 painter = painterResource(R.drawable.ic_arrow_left),
                 contentDescription = "Back Button"
             )
 
-            Spacer(modifier = Modifier.width(15.dp))
+            Spacer(modifier = Modifier.width(20.dp))
 
             Text(
                 text = "Record Expense",
-                fontSize = 18.sp,
-                fontWeight = FontWeight.Bold
+                fontSize = 16.sp,
+                fontWeight = FontWeight.Bold,
+                modifier = Modifier.padding(top = 2.dp)
             )
         }
     }

@@ -15,4 +15,7 @@ class NavigationViewModel @Inject constructor(
         else Routes.LoginScreen.route
     }
 
+    fun getLoginStatus(): Boolean {
+        return getUserLoginStatusUseCase()
+    }
 }

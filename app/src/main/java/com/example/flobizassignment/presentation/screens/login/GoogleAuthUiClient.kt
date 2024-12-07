@@ -57,8 +57,6 @@ class GoogleAuthUiClient (
         }
     }
 
-    fun getSignedInUser(): Boolean? = auth.currentUser?.run { true }
-
     suspend fun signOut() {
         try {
             oneTapClient.signOut().await()

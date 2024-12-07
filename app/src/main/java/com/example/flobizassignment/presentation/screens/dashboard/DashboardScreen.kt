@@ -41,6 +41,7 @@ import com.example.flobizassignment.presentation.theme.textColorSecondary
 @Composable
 fun DashboardScreen(
     navigateToViewEditExpenseScreen: (expense: Expense) -> Unit = {},
+    onAddNewButtonClick: () -> Unit,
     dashboardViewModel: DashboardViewModel = hiltViewModel(),
 ) {
     var isSearching by remember { mutableStateOf(false) }
@@ -70,7 +71,9 @@ fun DashboardScreen(
                     onSearchQueryChange = { searchQuery = it }
                 )
             },
-            floatingActionButton = { AddNewButton() },
+            floatingActionButton = { AddNewButton(
+                onClick = onAddNewButtonClick
+            ) },
             content = { padding ->
                 DashboardContent(
                     navigateToViewEditExpenseScreen = navigateToViewEditExpenseScreen,

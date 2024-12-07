@@ -110,6 +110,14 @@ fun NavGraph(
             composable(route = Routes.LoginScreen.route){
                 val signInState by loginViewModel.signInState.collectAsStateWithLifecycle()
 
+                LaunchedEffect(key1 = Unit) {
+                    if (navigationViewModel.getLoginStatus()) {
+                        navController.navigate(
+                            route = Routes.DashboardScreen.route
+                        )
+                    }
+                }
+
                 LaunchedEffect(key1 = signInState.isSignInSuccessful) {
                     if (signInState.isSignInSuccessful) {
                         navController.navigate(
@@ -130,6 +138,11 @@ fun NavGraph(
                 route = Routes.DashboardScreen.route
             ) {
                 DashboardScreen(
+                    onAddNewButtonClick = {
+                        navController.navigate(
+                            route = Routes.AddExpenseScreen.route
+                        )
+                    },
                     navigateToViewEditExpenseScreen = { expense ->
                         navigateToViewEditExpenseScreen(
                             navController = navController,
