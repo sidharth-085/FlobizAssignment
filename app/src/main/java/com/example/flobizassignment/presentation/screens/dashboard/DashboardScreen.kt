@@ -69,7 +69,6 @@ fun DashboardScreen(
         Scaffold(
             topBar = {
                 SearchTopBar(
-                    isSearching = isSearching,
                     searchQuery = searchQuery,
                     onIsSearchingChange = { isSearching = it },
                     onSearchQueryChange = { searchQuery = it }
