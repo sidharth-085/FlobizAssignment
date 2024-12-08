@@ -28,11 +28,9 @@ class DashboardViewModel @Inject constructor(
 
             try {
                 _transactions.value = transactionRepository.getTransactions()
-                Log.d("Hello Tagg", "${_transactions.value}")
             } catch (e: Exception) {
                 _transactions.value = emptyList()
                 e.printStackTrace()
-                Log.d("Hello Tagg", "hello" + e.message.toString())
             } finally {
                 _isLoading.value = false
             }

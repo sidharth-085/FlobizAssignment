@@ -1,6 +1,8 @@
 package com.example.flobizassignment.presentation.screens.dashboard
 
+import android.os.Build
 import androidx.activity.compose.BackHandler
+import androidx.annotation.RequiresApi
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -39,6 +41,7 @@ import com.example.flobizassignment.presentation.theme.FlobizAssignmentTheme
 import com.example.flobizassignment.presentation.theme.background
 import com.example.flobizassignment.presentation.theme.textColorSecondary
 
+@RequiresApi(Build.VERSION_CODES.O)
 @Composable
 fun DashboardScreen(
     navigateToViewEditTransactionScreen: (transaction: Transaction) -> Unit = {},
@@ -87,6 +90,7 @@ fun DashboardScreen(
     }
 }
 
+@RequiresApi(Build.VERSION_CODES.O)
 @Composable
 fun DashboardContent(
     navigateToViewEditTransactionScreen: (transaction: Transaction) -> Unit,
@@ -129,14 +133,14 @@ fun DashboardContent(
                     ) {
                         items(
                             items = updatedTransactions,
-                            key = { it.id }
+                            key = { it.transactionId }
                         ) { transaction ->
                             SwipeToDeleteContainer(
                                 item = transaction,
                                 onDelete = { }
                             ) {
-                                TransactionCard(transaction = transaction) { e ->
-                                    navigateToViewEditTransactionScreen(e)
+                                TransactionCard(transaction = transaction) { transaction ->
+                                    navigateToViewEditTransactionScreen(transaction)
                                 }
                             }
                         }

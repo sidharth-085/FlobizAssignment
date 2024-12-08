@@ -1,9 +1,9 @@
 package com.example.flobizassignment.presentation.utils
 
 import android.os.Build
-import android.util.Log
 import androidx.annotation.RequiresApi
 import com.example.flobizassignment.domain.models.Transaction
+import com.google.gson.Gson
 import java.time.Instant
 import java.time.LocalDate
 import java.time.ZoneId
@@ -26,7 +26,7 @@ object Utils {
 
     fun map(transaction: Transaction): HashMap<String, Any> {
         return hashMapOf(
-            "id" to transaction.id,
+            "id" to transaction.transactionId,
             "date" to transaction.date,
             "description" to transaction.description,
             "amount" to transaction.amount,
@@ -36,6 +36,14 @@ object Utils {
 
     fun onError(e: Exception) {
         e.printStackTrace()
-        Log.d("Hello Tagg", e.message.toString())
+    }
+
+    private fun convertToJsonString(transaction: Transaction): String {
+        return Gson().toJson(transaction)
+    }
+
+    fun createRouteForTransaction(transaction: Transaction): String {
+        val transactionJson = convertToJsonString(transaction)
+        return "view_edit_transaction_screen/$transactionJson"
     }
 }

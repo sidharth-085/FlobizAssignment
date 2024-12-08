@@ -56,6 +56,7 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import com.example.flobizassignment.R
 import com.example.flobizassignment.domain.models.Transaction
+import com.example.flobizassignment.domain.models.TransactionState
 import com.example.flobizassignment.presentation.components.topbar.AddTransactionTopBar
 import com.example.flobizassignment.presentation.screens.transaction.viewmodel.AddTransactionViewModel
 import com.example.flobizassignment.presentation.theme.background
@@ -126,7 +127,9 @@ fun AddTransactionScreen(
 
     Scaffold(
         topBar = {
-            AddTransactionTopBar()
+            AddTransactionTopBar(
+                navController = navController
+            )
         },
         content = { padding ->
             Column(
@@ -184,8 +187,7 @@ fun AddTransactionScreen(
                             date = formattedDateString,
                             description = description,
                             amount = amount.toDoubleOrNull() ?: 0.0,
-                            type = selectedOption,
-                            id = auth.currentUser!!.uid
+                            type = selectedOption
                         )
                         addTransactionViewModel.saveTransaction(transaction)
                         navController.popBackStack()

@@ -1,4 +1,4 @@
-package com.example.flobizassignment.presentation.screens.transaction
+package com.example.flobizassignment.domain.models
 
 sealed class TransactionState {
     data object Initial : TransactionState()

@@ -39,31 +39,35 @@ fun ViewEditTransactionTopBar(
     changeEditMode: (value: Boolean) -> Unit,
 ) {
     Column(
-        modifier = Modifier.fillMaxWidth()
+        modifier = Modifier
+            .fillMaxWidth()
             .background(Color.White)
-            .padding(top = 10.dp)
     ) {
         Row(
-            modifier = Modifier.fillMaxWidth()
-                .background(Color.White)
-                .padding(20.dp),
+            modifier = Modifier.padding(16.dp),
             verticalAlignment = Alignment.CenterVertically
         ) {
             Image(
-                modifier = Modifier.size(30.dp)
+                modifier = Modifier.size(24.dp)
+                    .padding(top = 2.dp)
                     .clickable {
-                        navController.popBackStack()
+                        if (edit) {
+                            changeEditMode(false)
+                        } else {
+                            navController.popBackStack()
+                        }
                     },
                 painter = painterResource(R.drawable.ic_arrow_left),
-                contentDescription = "back"
+                contentDescription = "Back Button"
             )
 
-            Spacer(modifier = Modifier.width(15.dp))
+            Spacer(modifier = Modifier.width(20.dp))
 
             Text(
-                text = "Record Transaction",
-                fontSize = 18.sp,
-                fontWeight = FontWeight.Bold
+                text = "Expense",
+                fontSize = 16.sp,
+                fontWeight = FontWeight.Bold,
+                modifier = Modifier.padding(top = 2.dp)
             )
 
             Row(
@@ -74,17 +78,10 @@ fun ViewEditTransactionTopBar(
                 if (edit) {
                     Image(
                         modifier = Modifier
-                            .size(30.dp)
+                            .size(24.dp)
                             .clickable {
                                 viewTransactionViewModel.updateTransaction(
-                                    transactionId = transaction.id,
-                                    updatedTransaction = Transaction(
-                                        id = transaction.id,
-                                        type = transaction.type,
-                                        description = transaction.description,
-                                        amount = transaction.amount.toDouble(),
-                                        date = transaction.date
-                                    ),
+                                    updatedTransaction = transaction,
                                     onSuccessCallback = {
                                         changeEditMode(false)
                                     },
@@ -99,7 +96,7 @@ fun ViewEditTransactionTopBar(
                 } else {
                     Image(
                         modifier = Modifier
-                            .size(30.dp)
+                            .size(24.dp)
                             .clickable { changeEditMode(true) },
                         painter = painterResource(R.drawable.ic_edit),
                         contentDescription = "edit"
@@ -110,10 +107,10 @@ fun ViewEditTransactionTopBar(
 
                 Image(
                     modifier = Modifier
-                        .size(30.dp)
+                        .size(24.dp)
                         .clickable {
                             viewTransactionViewModel.deleteTransaction(
-                                transactionId = transaction.id,
+                                transaction = transaction,
                                 onSuccessCallback = {
                                     navController.popBackStack()
                                 },

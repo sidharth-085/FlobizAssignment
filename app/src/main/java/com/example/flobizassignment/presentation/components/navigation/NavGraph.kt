@@ -34,8 +34,10 @@ import com.example.flobizassignment.presentation.screens.login.LoginScreen
 import com.example.flobizassignment.presentation.screens.login.LoginViewModel
 import com.example.flobizassignment.presentation.screens.settings.SettingsScreen
 import com.example.flobizassignment.presentation.theme.background
+import com.example.flobizassignment.presentation.utils.Utils
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.ktx.Firebase
+import com.google.gson.Gson
 
 @RequiresApi(Build.VERSION_CODES.O)
 @Composable
@@ -173,11 +175,13 @@ fun NavGraph(
             composable(
                 route = Routes.ViewEditTransactionScreen.route,
                 arguments = listOf(navArgument("transactions") { type = NavType.StringType })
-            ) { backStackEntry ->
-                val transaction = navController.previousBackStackEntry?.savedStateHandle?.get<Transaction?>("transaction")
+            ) {backStackEntry ->
+                val transactionJson = backStackEntry.arguments?.getString("transactions")
+                val transaction = Gson().fromJson(transactionJson, Transaction::class.java)
+
                 transaction?.let {
                     ViewEditTransactionScreen(
-                        transaction = transaction,
+                        transaction = it,
                         navController = navController,
                         firebaseAuth = Firebase.auth
                     )
@@ -199,9 +203,12 @@ private fun navigateToTab(navController: NavController, route: String) {
     }
 }
 
-private fun navigateToViewEditTransactionScreen(navController: NavController, transaction: Transaction) {
-    navController.currentBackStackEntry?.savedStateHandle?.set("transaction", transaction)
+@RequiresApi(Build.VERSION_CODES.O)
+private fun navigateToViewEditTransactionScreen(
+    navController: NavController,
+    transaction: Transaction
+) {
     navController.navigate(
-        Routes.ViewEditTransactionScreen.route
+        route = Utils.createRouteForTransaction(transaction)
     )
 }

@@ -21,6 +21,7 @@ firebaseFirestore = "25.1.1"
 ksp = "2.0.20-1.0.24"
 googleGmsGoogleServices = "4.4.2"
 hiltNavigationCompose = "1.2.0"
+playServices = "17.0.0"
 playServicesAuth = "21.2.0"
 ui = "1.7.5"
 
@@ -58,6 +59,7 @@ androidx-ui-test-junit4 = { group = "androidx.compose.ui", name = "ui-test-junit
 androidx-material3 = { group = "androidx.compose.material3", name = "material3" }
 firebase-auth = { group = "com.google.firebase", name = "firebase-auth", version.ref = "firebaseAuth" }
 firebase-firestore = { group = "com.google.firebase", name = "firebase-firestore", version.ref = "firebaseFirestore" }
+play-services = { module = "com.google.android.gms:play-services", version.ref = "playServices" }
 play-services-auth = { module = "com.google.android.gms:play-services-auth", version.ref = "playServicesAuth" }
 ui = { module = "androidx.compose.ui:ui", version.ref = "ui" }
 

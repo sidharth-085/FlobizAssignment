@@ -1,7 +1,7 @@
 package com.example.flobizassignment.domain.models
 
 data class Transaction(
-    val id: String = "",
+    val transactionId: String = "",
     val date: String = "",
     val description: String = "",
     val amount: Double = 0.0,
