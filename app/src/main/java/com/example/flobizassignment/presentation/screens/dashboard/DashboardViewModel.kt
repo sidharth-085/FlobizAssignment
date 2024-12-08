@@ -35,4 +35,8 @@ class DashboardViewModel @Inject constructor(
             }
         }
     }
+
+    fun removeTransaction(transaction: Transaction) {
+        _transactions.value = _transactions.value.filterNot { it.transactionId == transaction.transactionId }
+    }
 }

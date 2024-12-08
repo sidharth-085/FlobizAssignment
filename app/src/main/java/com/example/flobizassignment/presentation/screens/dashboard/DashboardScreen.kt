@@ -37,9 +37,11 @@ import com.example.flobizassignment.presentation.components.AddNewButton
 import com.example.flobizassignment.presentation.components.SwipeToDeleteContainer
 import com.example.flobizassignment.presentation.components.TransactionCard
 import com.example.flobizassignment.presentation.components.topbar.SearchTopBar
+import com.example.flobizassignment.presentation.screens.transaction.viewmodel.ViewEditTransactionViewModel
 import com.example.flobizassignment.presentation.theme.FlobizAssignmentTheme
 import com.example.flobizassignment.presentation.theme.background
 import com.example.flobizassignment.presentation.theme.textColorSecondary
+import com.example.flobizassignment.presentation.utils.Utils
 
 @RequiresApi(Build.VERSION_CODES.O)
 @Composable
@@ -47,12 +49,13 @@ fun DashboardScreen(
     navigateToViewEditTransactionScreen: (transaction: Transaction) -> Unit = {},
     onAddNewButtonClick: () -> Unit,
     dashboardViewModel: DashboardViewModel = hiltViewModel(),
+    viewEditViewModel: ViewEditTransactionViewModel = hiltViewModel()
 ) {
     var isSearching by remember { mutableStateOf(false) }
     var searchQuery by remember { mutableStateOf("") }
     val transactions by dashboardViewModel.transactions.collectAsState()
     val isLoading by dashboardViewModel.isLoading.collectAsState()
-    val filteredTransactions = transactions.filter {
+    val updatedTransactions = transactions.filter {
         it.description.contains(searchQuery, ignoreCase = true)
     }
 
@@ -81,7 +84,18 @@ fun DashboardScreen(
                 DashboardContent(
                     navigateToViewEditTransactionScreen = navigateToViewEditTransactionScreen,
                     isLoading = isLoading,
-                    updatedTransactions = filteredTransactions
+                    updatedTransactions = updatedTransactions,
+                    onSwipeDelete = {
+                        viewEditViewModel.deleteTransaction(
+                            transaction = it,
+                            onSuccessCallback = {
+                                dashboardViewModel.removeTransaction(transaction = it)
+                            },
+                            onFailureCallback = { error ->
+                                Utils.onError(error)
+                            }
+                        )
+                    }
                 )
             },
             floatingActionButtonPosition = FabPosition.Center
@@ -94,7 +108,8 @@ fun DashboardScreen(
 fun DashboardContent(
     navigateToViewEditTransactionScreen: (transaction: Transaction) -> Unit,
     isLoading: Boolean,
-    updatedTransactions: List<Transaction>
+    updatedTransactions: List<Transaction>,
+    onSwipeDelete: (transaction: Transaction) -> Unit
 ) {
     Column(
         modifier = Modifier
@@ -136,7 +151,7 @@ fun DashboardContent(
                         ) { transaction ->
                             SwipeToDeleteContainer(
                                 item = transaction,
-                                onDelete = { }
+                                onSwipeDelete = onSwipeDelete
                             ) {
                                 TransactionCard(transaction = transaction) { transaction ->
                                     navigateToViewEditTransactionScreen(transaction)

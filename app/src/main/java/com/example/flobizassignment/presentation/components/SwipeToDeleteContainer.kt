@@ -13,10 +13,7 @@ import androidx.compose.material.DismissDirection
 import androidx.compose.material.DismissState
 import androidx.compose.material.DismissValue
 import androidx.compose.material.ExperimentalMaterialApi
-import androidx.compose.material.Icon
 import androidx.compose.material.SwipeToDismiss
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Delete
 import androidx.compose.material.rememberDismissState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
@@ -36,7 +33,7 @@ import kotlinx.coroutines.delay
 @Composable
 fun <T> SwipeToDeleteContainer(
     item: T,
-    onDelete: (T) -> Unit,
+    onSwipeDelete: (T) -> Unit,
     animationDuration: Int = 500,
     content: @Composable (T) -> Unit
 ) {
@@ -58,8 +55,7 @@ fun <T> SwipeToDeleteContainer(
 
     LaunchedEffect(key1 = isRemoved) {
         if (isRemoved) {
-            delay(animationDuration.toLong())
-            onDelete(item)
+            onSwipeDelete(item)
         }
     }
 
@@ -84,11 +80,7 @@ fun <T> SwipeToDeleteContainer(
 fun DeleteBackground(swipeDismissState: DismissState) {
     val dismissDirection = swipeDismissState.dismissDirection
 
-    val color = if (dismissDirection == DismissDirection.EndToStart || dismissDirection == DismissDirection.StartToEnd) {
-        Color.Transparent
-    } else {
-        Color.Transparent
-    }
+    val color = Color.Transparent
 
     val alignment = when (dismissDirection) {
         DismissDirection.StartToEnd -> Alignment.CenterStart
