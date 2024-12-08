@@ -1,10 +1,9 @@
 package com.example.flobizassignment.presentation.screens.dashboard
 
-import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.flobizassignment.domain.models.Transaction
-import com.example.flobizassignment.domain.repository.TransactionRepository
+import com.example.flobizassignment.domain.usecases.GetTransactionsUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
@@ -13,7 +12,7 @@ import javax.inject.Inject
 
 @HiltViewModel
 class DashboardViewModel @Inject constructor(
-    private val transactionRepository: TransactionRepository
+    private val getTransactionsUseCase: GetTransactionsUseCase
 ): ViewModel() {
 
     private val _transactions = MutableStateFlow<List<Transaction>>(emptyList())
@@ -27,7 +26,7 @@ class DashboardViewModel @Inject constructor(
             _isLoading.value = true
 
             try {
-                _transactions.value = transactionRepository.getTransactions()
+                _transactions.value = getTransactionsUseCase()
             } catch (e: Exception) {
                 _transactions.value = emptyList()
                 e.printStackTrace()
